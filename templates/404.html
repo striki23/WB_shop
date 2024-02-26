@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}Страница не найдена{% endblock %}
+
+{% block content %}
+  <h1>Страница не найдена</h1>
+  <p>Страницы с таким адресом не существует</p>
+  <a href="{% url 'shop:index' %}">Перейти на главную</a>
+{% endblock %}
