@@ -14,7 +14,8 @@ def categories(request):
 
 def single_category(request, category_slug):
     category = get_object_or_404(Category, slug=category_slug)
-    return render(request, 'shop/single_category.html', {'category': category})
+    products_in_cat = Product.objects.filter(category=category.pk)
+    return render(request, 'shop/single_category.html', {'category': category, 'products_in_cat': products_in_cat})
 
 
 def single_product(request, product_id):
