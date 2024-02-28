@@ -9,7 +9,6 @@ app_name = 'shop'
 urlpatterns = [
     path('', views.index, name='index'),
     path('<int:product_id>', views.single_product, name='single_product'),
-    path('categories/', views.categories, name='categories'),
     path('categories/<slug:category_slug>', views.single_category, name='single_category')
     # не понимаю до конца как он находит 'category_slug'
 ]

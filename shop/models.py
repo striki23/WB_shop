@@ -1,11 +1,14 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class Category(models.Model):
-    title = models.CharField(max_length=255, verbose_name='Название')
-    slug = models.SlugField(max_length=50, default='default_slug')
+    title = models.CharField(_('Название'), max_length=255)
+    slug = models.SlugField(max_length=50)
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
+
+# TODO как создать бэкап БД
 
     class Meta:
         verbose_name = 'Категория'
@@ -25,9 +28,15 @@ class Product(models.Model):
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
 
+# TODO добавить валидатор для названия image (from uuid import uuid4)
+# TODO ограничить допустимые форматы картинок
+# TODO ограничить размер и разрешение картинок
+# TODO проверка title(только рус, англ)
+
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
+        ordering = ('-is_available', '-time_create')
 
     def __str__(self):
         return self.title
