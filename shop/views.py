@@ -13,8 +13,8 @@ def single_category(request, category_slug):
     return render(request, 'shop/single_category.html', {'category': category, 'products_in_cat': products_in_cat})
 
 
-def single_product(request, product_id):
-    product = get_object_or_404(Product, pk=product_id)
+def single_product(request, product_slug):
+    product = get_object_or_404(Product, slug=product_slug)
     return render(request, 'shop/single_product.html', {'product': product})
 
 

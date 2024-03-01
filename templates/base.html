@@ -3,7 +3,8 @@
 {% load shop_tags %}
 <html lang="en">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -15,39 +16,45 @@
 </head>
 
 <nav class="navbar navbar-dark bg-dark">
-        <div>
-            <a href="{% url 'shop:index' %}" class="nav-item mx-3"><img src="{% static 'images/logo1.png' %}" width="75" height="75"></a>
-            <a href="{% url 'shop:index' %}" class="navbar-brand mr-5">WB SHOP</a>
-        </div>
-        <div class="nav justify-content-end">
-            <a href="" class="me-2 text-bg-dark">Войти</a>
-            <a href="" class="me-2 text-bg-dark">Контакты</a>
-            <a href="" class="me-2 text-bg-dark" target="_blank" >API</a>
-        </div>
+    <div>
+        <a href="{% url 'shop:index' %}" class="nav-item mx-3"><img src="{% static 'images/logo1.png' %}" width="75"
+                                                                    height="75"></a>
+        <a href="{% url 'shop:index' %}" class="navbar-brand mr-5">WB SHOP</a>
+    </div>
+    <div class="nav justify-content-end mx-5">
+        <a href="{% url 'users:login' %}" class="me-2 text-bg-dark px-3">Войти</a>
+        <a href="" class="me-2 text-bg-dark px-3">Контакты</a>
+        <a href="" class="me-2 text-bg-dark px-3" target="_blank">API</a>
+    </div>
 
 </nav>
 
-<main class="d-flex flex-nowrap">
-<!-- Sidebar слева -->
-	<div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
-      <a href="{% url 'shop:index' %}" class="navbar-brand mx-3">Категории</a>
-        {% get_categories as categories%}
-    <hr>
+<body>
 
-    <ul class="nav nav-pills flex-column mb-auto">
-      {% for category in categories %}
-      <li class="nav-item mx-3 my-2">
-        <a href="{% url 'shop:single_category' category.slug %}" class="list-group-item">
-        {{ category.title }}</a>
-      </li>
-      {% endfor %}
-    </ul>
+    <aside>
+        <!-- Sidebar слева -->
+        <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
+            <a href="{% url 'shop:index' %}" class="navbar-brand mx-3">Категории</a>
+            {% get_categories as categories%}
+            <hr>
 
-    </div>
-<!-- Конец Sidebar'а -->
-    <div class="content-text mx-5 my-5">
-        {% block content %}
-        {% endblock %}
-    </div>
+            <ul class="nav nav-pills flex-column mb-auto">
+                {% for category in categories %}
+                <li class="nav-item mx-3 my-2">
+                    <a href="{% url 'shop:single_category' category.slug %}" class="list-group-item">
+                        {{ category.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+        <!-- Конец Sidebar'а -->
+    </aside>
+<main class="container d-flex flex-nowrap">
+    {% block content %}
+    {% endblock %}
+
 </main>
+</body>
+
 </html>

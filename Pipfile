@@ -7,6 +7,8 @@ name = "pypi"
 django = "==4.0.8"
 pillow = "*"
 sorl-thumbnail = "*"
+ipython = "*"
+django-extensions = "*"
 
 [dev-packages]
 
