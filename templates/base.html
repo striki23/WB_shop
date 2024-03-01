@@ -29,32 +29,36 @@
 
 </nav>
 
-<body>
-
-    <aside>
+<body >
+<div class="container-xxl bd-gutter mt-3 my-md-4 bd-layout">
+    <aside class="bd-sidebar" style="width: 280px;">
         <!-- Sidebar слева -->
-        <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
+
+        <div class="offcanvas-lg offcanvas-start">
             <a href="{% url 'shop:index' %}" class="navbar-brand mx-3">Категории</a>
             {% get_categories as categories%}
             <hr>
-
-            <ul class="nav nav-pills flex-column mb-auto">
-                {% for category in categories %}
-                <li class="nav-item mx-3 my-2">
-                    <a href="{% url 'shop:single_category' category.slug %}" class="list-group-item">
-                        {{ category.title }}</a>
-                </li>
+            <div class="offcanvas-body">
+                <nav class="bd-links h-100">
+                    <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
+                        {% for category in categories %}
+                        <li class="nav-item mx-3 my-2">
+                            <a href="{% url 'shop:single_category' category.slug %}" class="list-group-item">
+                                {{ category.title }}</a>
+                        </li>
                 {% endfor %}
-            </ul>
-
+                    </ul>
+                </nav>
+            </div>
         </div>
         <!-- Конец Sidebar'а -->
     </aside>
-<main class="container d-flex flex-nowrap">
-    {% block content %}
-    {% endblock %}
+    <div class="container">
+        {% block content %}
+        {% endblock %}
 
-</main>
+    </div>
+</div>
 </body>
 
 </html>

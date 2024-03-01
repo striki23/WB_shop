@@ -2,8 +2,7 @@ import os
 from uuid import uuid4
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.core.validators import RegexValidator, FileExtensionValidator
-from PIL import Image
+from django.core.validators import RegexValidator, FileExtensionValidator, ValidationError
 from my_utils.utils import validate_image, get_file_path
 
 
