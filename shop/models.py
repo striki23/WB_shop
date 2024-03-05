@@ -36,14 +36,16 @@ class Product(models.Model):
     description = models.TextField('Описание товара', max_length=600)
     price = models.IntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    image = models.ImageField('Фото',
-                              upload_to=get_file_path,
-                              default='shop/default.jpg',
-                              validators=[validate_image,
-                                          FileExtensionValidator(
-                                              allowed_extensions=['jpg', 'png', 'jpeg'],
-                                              message='Данный формат файла не поддерживается', )]
-                              )
+    image = models.ImageField(
+        'Фото',
+        upload_to=get_file_path,
+        default='shop/default.jpg',
+        validators=[
+            validate_image,
+            FileExtensionValidator(allowed_extensions=['jpg', 'png', 'jpeg'],
+                                   message='Данный формат файла не поддерживается')
+        ]
+    )
     is_available = models.BooleanField(default=True)
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
