@@ -25,6 +25,10 @@
         <a href="{% url 'users:login' %}" class="me-2 text-bg-dark px-3">Войти</a>
         <a href="" class="me-2 text-bg-dark px-3">Контакты</a>
         <a href="" class="me-2 text-bg-dark px-3" target="_blank">API</a>
+        <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search">
+            <button class="btn btn-light" type="submit">Поиск</button>
+        </form>
     </div>
 
 </nav>
@@ -71,8 +75,8 @@
 </body>
 <footer class="container-fluid">
     <div class="row">
-      <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-        <p class="col-md-4 mb-0 text-body-secondary">&copy; 2024 Company, Inc</p>
+      <footer class="d-flex flex-wrap justify-content-between align-items-center py-1 my-3 border-top">
+        <p class="col-md-4 mb-0 text-body-secondary">&copy; {% get_year %} WB SHOP</p>
       </footer>
     </div>
 </footer>
