@@ -29,36 +29,51 @@
 
 </nav>
 
-<body >
-<div class="container-xxl bd-gutter mt-3 my-md-4 bd-layout">
-    <aside class="bd-sidebar" style="width: 280px;">
-        <!-- Sidebar слева -->
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <aside class="bd-sidebar mt-4">
+                <!-- Sidebar слева -->
+                <h5>Категории</h5>
+                {% get_categories as categories%}
+                <hr>
+                <ul class="list-group">
+                    {% for category in categories %}
 
-        <div class="offcanvas-lg offcanvas-start">
-            <a href="{% url 'shop:index' %}" class="navbar-brand mx-3">Категории</a>
-            {% get_categories as categories%}
-            <hr>
-            <div class="offcanvas-body">
-                <nav class="bd-links h-100">
-                    <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2">
-                        {% for category in categories %}
-                        <li class="nav-item mx-3 my-2">
-                            <a href="{% url 'shop:single_category' category.slug %}" class="list-group-item">
-                                {{ category.title }}</a>
-                        </li>
-                {% endfor %}
-                    </ul>
-                </nav>
-            </div>
+                    {% if category.id == cat_selected %}
+                    <li class="list-group-item active" aria-current="true">
+                        {{ category.title }}
+                    </li>
+                    {% else %}
+                    <li>
+                        <a href="{% url 'shop:single_category' category.slug %}" class="list-group-item list-group-item-action">
+                            {{ category.title }}
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% endfor %}
+                </ul>
+                </aside>
         </div>
         <!-- Конец Sidebar'а -->
-    </aside>
-    <div class="container">
-        {% block content %}
-        {% endblock %}
 
+        <div class="col-md-9">
+            <div class="container">
+                {% block content %}
+                {% endblock %}
+
+            </div>
+        </div>
     </div>
-</div>
+   </div>
 </body>
-
+<footer class="container-fluid">
+    <div class="row">
+      <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <p class="col-md-4 mb-0 text-body-secondary">&copy; 2024 Company, Inc</p>
+      </footer>
+    </div>
+</footer>
 </html>

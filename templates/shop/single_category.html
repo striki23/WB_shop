@@ -2,10 +2,9 @@
 {% block title %}Категории товаров: {{ category.title }}{% endblock %}
 
 {% block content %}
-<h1 >{{ category.title }}</h1>
 
 <div class="row row-cols-3 row-cols-md-3 g-4 mt-5">
-  {% for product in products_in_cat %}
+  {% for product in products_in_cat.all %}
   {% include 'includes/shop/product_card.html' %}
   {% endfor %}
 </div>

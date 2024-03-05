@@ -3,9 +3,8 @@ from .models import Category, Product
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('title', 'price', 'category', 'is_available')
-    readonly_fields = ('time_create',)
-    prepopulated_fields = {'slug': ('title',)}
+    list_display = ('title', 'slug', 'price', 'category', 'is_available', )
+    readonly_fields = ('time_create', 'slug')
 
 
 class CategoryAdmin(admin.ModelAdmin):

@@ -1,9 +1,9 @@
-import os
-from uuid import uuid4
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.core.validators import RegexValidator, FileExtensionValidator, ValidationError
+from django.core.validators import RegexValidator, FileExtensionValidator
 from my_utils.utils import validate_image, get_file_path
+from pytils.translit import slugify
+from PIL import Image
 
 
 class Category(models.Model):
@@ -26,15 +26,15 @@ class Product(models.Model):
         max_length=255,
         unique=True,
         validators=[RegexValidator(
-            regex=r'[^a-zA-ZА-Яа-яЁё0-9 ]',
+            regex=r'[^a-zA-ZА-Яа-яЁё0-9,.%*() ]',
             message='Используйте буквы только латинского и русского алфавита',
             inverse_match=True
         )]
     )
-    slug = models.SlugField(max_length=50)
+    slug = models.SlugField(max_length=50, unique=True, null=False)
     description = models.TextField('Описание товара', max_length=600)
     price = models.IntegerField(default=0)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     image = models.ImageField('Фото',
                               upload_to=get_file_path,
                               default='shop/default.jpg',
@@ -57,8 +57,8 @@ class Product(models.Model):
         verbose_name_plural = 'Товары'
         ordering = ('-is_available', '-time_create')
 
-    # сохраняем все изображение в разрешении 300*300 и меньше
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):  # new
+        self.slug = slugify(self.title)
         super().save(*args, **kwargs)
         img = Image.open(self.image.path)
         width, height = img.size

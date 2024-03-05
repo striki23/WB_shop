@@ -9,6 +9,7 @@ pillow = "*"
 sorl-thumbnail = "*"
 ipython = "*"
 django-extensions = "*"
+pytils = "*"
 
 [dev-packages]
 
