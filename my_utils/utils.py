@@ -16,3 +16,8 @@ def get_file_path(instance, filename):
     expansion = filename.split('.')[-1]
     new_filename = f'{uuid4()}.{expansion}'
     return os.path.join('shop/', new_filename)
+
+
+# def validate_sale_price(sale_price, price):
+#     if sale_price >= price:
+#         raise ValidationError(f'Цена со скидкой не может быть больше либо равна {price} руб.', code='invalid')

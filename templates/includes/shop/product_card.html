@@ -7,15 +7,23 @@
       <div class="card-body">
         <h5 class="card-title">{{ product.title }}</h5>
          <h6 class="card-subtitle mb-2 text-muted">{{ product.category }}</h6>
-        <h6 class="card-title"><b>{{ product.price }} руб.</b></h6>
+        <div>
+          {% if product.sale_price == 0 %}
+          <span class="fw-bolder">{{ product.price }} руб.</span>
+          {% else %}
+          <span class="text-success fw-bolder">{{ product.sale_price }} руб.</span>
+          <span class="text-muted text-decoration-line-through"><small>{{ product.price }} руб.</small></span>
+          <span class="text-danger fw-bolder fs-6">{{ product.sale }} %</span>
+          {% endif %}
+        </div>
         {% if product.is_available %}
-          <p class="card-text">В наличии</p>
+          <p class="card-text mt-2">В наличии</p>
           </div>
           <div class="card-footer">
           <a href="" class="btn btn-primary">Купить</a>
           </div>
         {% else %}
-          <p class="text-danger mb-2">Недоступен к заказу</p>
+          <p class="text-danger mt-2">Недоступен к заказу</p>
           </div>
           <div class="card-footer">
           <button class="btn btn-primary disabled">Купить</button>

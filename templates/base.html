@@ -25,9 +25,10 @@
         <a href="{% url 'users:login' %}" class="me-2 text-bg-dark px-3">Войти</a>
         <a href="" class="me-2 text-bg-dark px-3">Контакты</a>
         <a href="" class="me-2 text-bg-dark px-3" target="_blank">API</a>
-        <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search">
-            <button class="btn btn-light" type="submit">Поиск</button>
+        <form class="d-flex" method="post" action="{% url 'shop:search_products' %}">
+            {% csrf_token %}
+            <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search" name="searched">
+            <button class="btn btn-outline-secondary" type="submit">Поиск</button>
         </form>
     </div>
 

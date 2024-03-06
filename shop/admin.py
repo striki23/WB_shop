@@ -3,7 +3,7 @@ from .models import Category, Product
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'price', 'category', 'is_available', )
+    list_display = ('title', 'slug', 'price', 'sale_price', 'category', 'is_available', )
     readonly_fields = ('time_create', 'slug')
 
 
