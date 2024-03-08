@@ -10,6 +10,7 @@ sorl-thumbnail = "*"
 ipython = "*"
 django-extensions = "*"
 pytils = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 

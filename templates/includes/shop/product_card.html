@@ -1,9 +1,11 @@
 {% load thumbnail %}
   <div class="col">
     <div class="card h-100">
-            {% thumbnail product.image "500x500" as im %}
+      <div class="container h-100 mt-3 px-3">
+      {% thumbnail product.image "500x500" as im %}
          <a href="{% url 'shop:single_product' product.slug %}"><img class="card-img-top" src="{{ im.url }}"> </a>
       {% endthumbnail %}
+      </div>
       <div class="card-body">
         <h5 class="card-title">{{ product.title }}</h5>
          <h6 class="card-subtitle mb-2 text-muted">{{ product.category }}</h6>

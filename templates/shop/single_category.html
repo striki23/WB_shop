@@ -1,9 +1,42 @@
 {% extends 'base.html' %}
+{% load thumbnail %}
 {% block title %}Категории товаров: {{ category.title }}{% endblock %}
 
 {% block content %}
 
-<div class="row row-cols-3 row-cols-md-3 g-4 mt-5">
+
+{% if category.banners.exists %}
+
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+  </div>
+  <div class="carousel-inner mt-5">
+    <div class="carousel-item active">
+      {% thumbnail banners.first.image "1800x339" crop="center" as im %}
+      <img src="{{ im.url }}" class="d-block w-100" >
+      {% endthumbnail %}
+    </div>
+    <div class="carousel-item">
+      {% thumbnail banners.last.image "1600x339" crop="center" as im %}
+      <img src="{{ im.url }}" class="d-block w-100" >
+      {% endthumbnail %}
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"  data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Предыдущий</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"  data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Следующий</span>
+  </button>
+</div>
+
+{% endif %}
+
+<div class="row row-cols-3 row-cols-md-3 g-4 mt-3">
   {% for product in products_in_cat.all %}
   {% include 'includes/shop/product_card.html' %}
   {% endfor %}

@@ -52,7 +52,7 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
-        ordering = ('-is_available', '-time_create')
+        ordering = ('-is_available', '-time_update')
 
     def clean(self):
         if self.sale_price >= self.price:
@@ -72,3 +72,15 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Banner(models.Model):
+    image = models.ImageField('Банер категории', upload_to=get_file_path, default='shop/default.jpg')
+    category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL, related_name='banners')
+
+    class Meta:
+        verbose_name = 'Баннер'
+        verbose_name_plural = 'Баннеры'
+
+    def __str__(self):
+        return self.category.title
