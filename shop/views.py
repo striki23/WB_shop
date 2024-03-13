@@ -25,7 +25,9 @@ def search_products(request):
     if request.method == 'POST' and request.POST.get('searched'):
         # r_search = request.POST.get('searched')
         r_search = request.POST['searched']
-        products = Product.objects.filter(title__icontains=r_search)
+        products = Product.objects.filter(title__icontains=r_search).annotate(
+            sale=(F('price') - F('sale_price')) * 100 / F('price')
+        )
         return render(
             request,
             'shop/search_products.html',
@@ -37,7 +39,9 @@ def search_products(request):
 # TODO: cat_selected возможно не используется
 def single_category(request, category_slug, cat_selected=0):
     category = get_object_or_404(Category, slug=category_slug)
-    products_in_cat = category.products
+    products_in_cat = category.products.annotate(
+            sale=(F('price') - F('sale_price')) * 100 / F('price')
+        )
     banners = category.banners.all()
     # TODO: Возможно передаются ненужные данные в контексте запроса
     context = {

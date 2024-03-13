@@ -1,12 +1,10 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.core.validators import RegexValidator, FileExtensionValidator
 from pytils.translit import slugify
-from django.core.validators import ValidationError
-from PIL import Image
+from django.core.validators import ValidationError, MinValueValidator
 
 from my_utils.utils import validate_image, get_file_path
-from shop.validators import ProductTitleValidator
+from shop.validators import ProductTitleValidator, ProfileImageValidator
 
 
 class Category(models.Model):
@@ -42,14 +40,8 @@ class Product(models.Model):
     description = models.TextField(
         'Описание товара', max_length=600
     )
-    price = models.PositiveIntegerField(
-        # TODO: Валидатор для обработки стоимости,
-        #  нельзя стоимость 0 указывать
-    )
-    sale_price = models.PositiveIntegerField(
-        blank=True,
-        null=True
-    )
+    price = models.PositiveIntegerField(validators=[MinValueValidator(1)])
+    sale_price = models.PositiveIntegerField(blank=True, null=True)
     category = models.ForeignKey(
         Category,
         on_delete=models.CASCADE,
@@ -59,12 +51,11 @@ class Product(models.Model):
         'Фото',
         upload_to=get_file_path,
         default='shop/default.jpg',
-        validators=[
-            validate_image,
-            FileExtensionValidator(
-                allowed_extensions=['jpg', 'png', 'jpeg'],
-                message='Данный формат файла не поддерживается',
-            )]
+        #     validators=[
+        #         validate_image, ProfileImageValidator()
+        #         ]
+        # )
+        validators=[validate_image]
     )
     is_available = models.BooleanField(default=True)
     time_create = models.DateTimeField(auto_now_add=True)
@@ -76,7 +67,7 @@ class Product(models.Model):
         ordering = ('-is_available', '-time_update')
 
     def clean(self):
-        if self.sale_price >= self.price:
+        if self.sale_price and self.sale_price >= self.price:
             raise ValidationError(
                 f'Цена со скидкой не может быть больше либо равна '
                 f'{self.price} руб.'
@@ -85,15 +76,6 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):  # new
         self.slug = slugify(self.title)
-
-        img = Image.open(self.image.path)
-        width, height = img.size
-
-        if width > 500 or height > 500:
-            output_size = (500, 500)
-            img.thumbnail(output_size)
-            img.save(self.image.path)
-
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -101,9 +83,12 @@ class Product(models.Model):
 
 
 class Banner(models.Model):
-    # TODO: название баннера
+    title = models.CharField(
+        'Наименование баннера',
+        max_length=255,
+    )
     image = models.ImageField(
-        'Банер категории',
+        'Баннер категории',
         upload_to=get_file_path,
         default='shop/default.jpg'
     )
@@ -118,5 +103,9 @@ class Banner(models.Model):
         verbose_name = 'Баннер'
         verbose_name_plural = 'Баннеры'
 
+    def save(self, *args, **kwargs):
+        self.title = f'Баннер {self.category} {self.pk}'
+        super().save(*args, **kwargs)
+
     def __str__(self):
-        return self.category.title
+        return self.title
