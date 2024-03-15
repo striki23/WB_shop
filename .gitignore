@@ -2,7 +2,7 @@
 ##### Project Files
 #########################
 Pipfile.lock
-
+static/
 
 #########################
 ##### PyCharm+all
@@ -148,6 +148,7 @@ cover/
 *.log
 local_settings.py
 db.sqlite3
+db.json
 db.sqlite3-journal
 instance/
 .webassets-cache
@@ -158,6 +159,8 @@ target/
 .ipynb_checkpoints
 profile_default/
 ipython_config.py
+media
+migrations
 
 
 #########################

@@ -9,7 +9,8 @@ pillow = "*"
 sorl-thumbnail = "*"
 ipython = "*"
 django-extensions = "*"
-requests = "*"
+pytils = "*"
+django-debug-toolbar = "*"
 
 [dev-packages]
 
