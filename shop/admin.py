@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Category, Product, Banner
+from .models import Category, Product, Banner, Review
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'price', 'sale_price', 'category', 'is_available', )
+    list_display = ('title', 'slug', 'price', 'sale_price', 'category', 'is_available',)
     readonly_fields = ('time_create', 'slug')
     search_fields = ('title', 'category__title')
     list_editable = ('sale_price', 'is_available')
@@ -30,6 +30,11 @@ class BannerAdmin(admin.ModelAdmin):
     list_display = ('title', 'image', 'category')
 
 
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('author', 'stars', 'text', 'product')
+
+
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Banner, BannerAdmin)
+admin.site.register(Review, ReviewAdmin)

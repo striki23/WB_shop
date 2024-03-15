@@ -59,14 +59,14 @@ class ProfileImageValidator(FileExtensionValidator):
         Конструктор класса.
 
         :param min_width: int, опционально. Минимальная ширина изображения.
-        По умолчанию - {constants..MIN_IMAGE_SIZE} пикселей.
+        По умолчанию - {constants.MIN_IMAGE_SIZE} пикселей.
         :param min_height: int, опционально. Минимальная высота изображения.
-        По умолчанию - {constants..MIN_IMAGE_SIZE}  пикселей.
+        По умолчанию - {constants.MIN_IMAGE_SIZE}  пикселей.
         :param max_width: int, опционально. Максимальная ширина изображения.
-        По умолчанию - {constants..MAX_IMAGE_SIZE} пикселей,
+        По умолчанию - {constants.MAX_IMAGE_SIZE} пикселей,
         заданное в настройках проекта.
         :param max_height: int, опционально. Максимальная высота изображения.
-        По умолчанию - {constants..MAX_IMAGE_SIZE} пикселей,
+        По умолчанию - {constants.MAX_IMAGE_SIZE} пикселей,
         заданное в настройках проекта.
         """
         self.min_width = kwargs.pop('min_width', self.MIN_SIZE)

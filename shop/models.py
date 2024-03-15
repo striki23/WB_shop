@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from pytils.translit import slugify
 from django.core.validators import ValidationError, MinValueValidator
+from django.contrib.auth.models import User
 
 from my_utils.utils import validate_image, get_file_path
 from shop.validators import ProductTitleValidator, ProfileImageValidator
@@ -74,7 +75,7 @@ class Product(models.Model):
             )
         return super().clean()
 
-    def save(self, *args, **kwargs):  # new
+    def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
@@ -109,3 +110,35 @@ class Banner(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Review(models.Model):
+    STARS_GOODS = (
+        (1, '1-Отвратительно'),
+        (2, '2-Плохо'),
+        (3, '3-Удовлетворительно'),
+        (4, '4-Хорошо'),
+        (5, '5-Отлично'),
+    )
+    # TODO сделать отдельную модель grade - оценка
+
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name='reviews'
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        default=1
+    )
+    text = models.TextField('Ваш отзыв', blank=True)
+    stars = models.IntegerField('Ваша оценка', choices=STARS_GOODS)
+    time_create = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
+
+    def __str__(self):
+        return f'{self.stars}'

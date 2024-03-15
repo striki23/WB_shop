@@ -3,17 +3,19 @@
 # from abc import ABC
 
 # Внешние модули
-from django.db.models import F
+from django.db.models import F, Avg
 from django.shortcuts import get_object_or_404, redirect, render
 
 # Модули проекта
-from shop.models import Product, Category
+from shop.models import Product, Category, Review
+from shop.forms import AddReviewForm
 
 
 def index(request):
     products = Product.objects.all().annotate(
         sale=(F('price') - F('sale_price')) * 100 / F('price')
     )
+
     return render(
         request,
         'shop/products.html',
@@ -40,8 +42,8 @@ def search_products(request):
 def single_category(request, category_slug, cat_selected=0):
     category = get_object_or_404(Category, slug=category_slug)
     products_in_cat = category.products.annotate(
-            sale=(F('price') - F('sale_price')) * 100 / F('price')
-        )
+        sale=(F('price') - F('sale_price')) * 100 / F('price')
+    )
     banners = category.banners.all()
     # TODO: Возможно передаются ненужные данные в контексте запроса
     context = {
@@ -59,10 +61,47 @@ def single_category(request, category_slug, cat_selected=0):
 
 def single_product(request, product_slug):
     product = get_object_or_404(Product, slug=product_slug)
+    reviews = Review.objects.filter(product=product)
+    avg_review_stars_dict = product.reviews.aggregate(Avg("stars"))
+    avg_review_stars = avg_review_stars_dict['stars__avg']
+    data = {
+        'product': product,
+        'reviews': reviews,
+        'avg_review_stars': avg_review_stars
+    }
     return render(
         request,
         'shop/single_product.html',
-        {'product': product}
+        data
+    )
+
+
+def add_review_for_product(request, product_slug):
+    product = get_object_or_404(Product, slug=product_slug)
+    if request.method == 'POST':
+        form = AddReviewForm(request.POST)
+        if form.is_valid():
+            try:
+                Review.objects.create(product=product, **form.cleaned_data)
+                return redirect('shop:single_product', product.slug)
+            except:
+                form.add_error(None, 'Ошибка в создании отзыва')
+            # form.save()
+            # TODO: как передать при сохранении передать в форму product
+
+            return redirect('shop:single_product', product.slug)
+
+    else:
+        form = AddReviewForm()
+
+    data = {
+        'product': product,
+        'form': form
+    }
+    return render(
+        request,
+        'shop/add_review_for_product.html',
+        data
     )
 
 
