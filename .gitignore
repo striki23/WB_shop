@@ -2,6 +2,7 @@
 ##### Project Files
 #########################
 Pipfile.lock
+static/
 
 #########################
 ##### PyCharm+all
