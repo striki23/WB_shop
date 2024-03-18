@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 from .models import Category, Product, Banner, Review
 
 
@@ -31,7 +32,15 @@ class BannerAdmin(admin.ModelAdmin):
 
 
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ('author', 'stars', 'text', 'product')
+    list_display = ('author', 'stars', 'text', 'product', 'review_image')
+
+    @admin.display(description='Фото отзыва')
+    def review_image(self, review: Review):
+        if review.image:
+            return mark_safe(
+                f"<img class='image-detail' src='{ review.image.url }' width=50>"
+            )
+        return 'Без фото'
 
 
 admin.site.register(Category, CategoryAdmin)

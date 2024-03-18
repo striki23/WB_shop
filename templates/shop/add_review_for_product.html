@@ -38,7 +38,7 @@
     </div>
      <div class="row mt-5">
          <div class="form-group">
-         <form method="POST">
+         <form action="" method="POST" enctype="multipart/form-data">
              {% csrf_token%}
              {{ form.as_p }}
        <button type="submit" class="btn btn-primary mt-5">Отправить</button>

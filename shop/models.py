@@ -134,6 +134,7 @@ class Review(models.Model):
     )
     text = models.TextField('Ваш отзыв', blank=True)
     stars = models.IntegerField('Ваша оценка', choices=STARS_GOODS)
+    image = models.ImageField('Фото', upload_to='uploads/', blank=True)
     time_create = models.DateTimeField(auto_now_add=True)
 
     class Meta:

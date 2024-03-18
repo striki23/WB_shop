@@ -44,14 +44,22 @@
      <div class="row mt-5">
      {% for rev in reviews %}
          <div class="p-2 mb-1 bg-light text-dark "><small>{{rev.time_create}}</small></div>
-         <p class="fw-bold">{{rev.author}}</p>
-         <div class="badge bg-secondary text-wrap" style="width: 8rem;">
-             Оценка товара - {{rev.stars}}
+         <div class="badge text-dark" style="width: 4rem;">
+             <h6><img src="{% static 'images/star.png' %}" width="20" height="20"> {{rev.stars}}</h6>
          </div>
+         <div class="fw-bold">{{rev.author}}</div>
          <p class="fs-6">{{rev.text}}</p>
+         <div>
+             {% thumbnail rev.image "200" as im %}<img class="image-detail" src="{{ im.url }}">
+            {% endthumbnail %}
+         </div>
          <hr>
      {% endfor %}
      </div>
 </div>
 
+
+
 {% endblock %}
+
+
