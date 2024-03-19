@@ -3,8 +3,10 @@ from django.utils.safestring import mark_safe
 from .models import Category, Product, Banner, Review
 
 
+@admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'price', 'sale_price', 'category', 'is_available',)
+    list_display = ('title', 'slug', 'price',
+                    'sale_price', 'category', 'is_available',)
     readonly_fields = ('time_create', 'slug')
     search_fields = ('title', 'category__title')
     list_editable = ('sale_price', 'is_available')
@@ -22,15 +24,18 @@ class ProductAdmin(admin.ModelAdmin):
         self.message_user(request, message=f'Изменено {count} записей')
 
 
+@admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('title', 'slug')
     prepopulated_fields = {'slug': ('title',)}
 
 
+@admin.register(Banner)
 class BannerAdmin(admin.ModelAdmin):
     list_display = ('title', 'image', 'category')
 
 
+@admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('author', 'stars', 'text', 'product', 'review_image')
 
@@ -38,12 +43,6 @@ class ReviewAdmin(admin.ModelAdmin):
     def review_image(self, review: Review):
         if review.image:
             return mark_safe(
-                f"<img class='image-detail' src='{ review.image.url }' width=50>"
+                f"<img class='image-detail' src='{review.image.url}' width=50>"
             )
         return 'Без фото'
-
-
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Product, ProductAdmin)
-admin.site.register(Banner, BannerAdmin)
-admin.site.register(Review, ReviewAdmin)
