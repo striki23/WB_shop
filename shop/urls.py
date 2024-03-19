@@ -7,11 +7,11 @@ from . import views
 app_name = 'shop'
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.ProductsHome.as_view(), name='index'),
     path('search', views.search_products, name='search_products'),
-    path('<slug:product_slug>', views.single_product, name='single_product'),
-    path('<slug:product_slug>/add_review', views.add_review_for_product, name='add_review'),
-    path('categories/<slug:category_slug>', views.single_category, name='single_category')
+    path('<slug:product_slug>', views.SingleProduct.as_view(), name='single_product'),
+    path('<slug:product_slug>/add_review', views.AddReview.as_view(), name='add_review'),
+    path('categories/<slug:category_slug>', views.ProductsInCategory.as_view(), name='single_category')
 
 ]
 
