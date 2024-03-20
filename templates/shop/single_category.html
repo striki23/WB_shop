@@ -27,11 +27,15 @@
 </div>
 
 {% endif %}
-
+{% if not empty %}
 <div class="row row-cols-4 row-cols-md-4 g-4 mt-3">
   {% for product in products_in_cat.all %}
   {% include 'includes/shop/product_card.html' %}
   {% endfor %}
 </div>
-
+{% else %}
+<p class="text-start mt-5">
+    {{ empty}}
+</p>
+{% endif %}
 {% endblock %}

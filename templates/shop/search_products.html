@@ -5,7 +5,7 @@
 
 
 {% block content %}
-<p class="text-start mt-5">Результаты поиска "{{ r_search }}": Найдено <b>{{products.count}}</b> товара(ов). </p>
+<p class="text-start mt-5">Результаты поиска "{{ query }}": Найдено <b>{{products.count}}</b> товара(ов). </p>
 <div class="row row-cols-xs-1 row-cols-sm-2 row-cols-md-3 g-4">
   {% for product in products %}
   {% include 'includes/shop/product_card.html' %}
