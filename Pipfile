@@ -11,7 +11,7 @@ ipython = "*"
 django-extensions = "*"
 pytils = "*"
 django-debug-toolbar = "*"
-
+python-dotenv = "1.0.1"
 [dev-packages]
 
 [requires]
