@@ -7,6 +7,7 @@ from django.db.models import Avg, F, Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, FormView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Модули проекта
 from shop.models import Product, Category, Review
@@ -81,7 +82,7 @@ class SingleProduct(ShowProductMixin):
     template_name = 'shop/single_product.html'
 
 
-class AddReview(ShowProductMixin, FormView):
+class AddReview(LoginRequiredMixin, ShowProductMixin, FormView):
     template_name = 'shop/add_review_for_product.html'
     form_class = AddReviewForm
 
@@ -94,6 +95,7 @@ class AddReview(ShowProductMixin, FormView):
     def form_valid(self, form):
         form.instance.product_id = Product.objects.get(
             slug=self.kwargs.get('product_slug')).pk
+        form.instance.author = self.request.user
         form.save()
         return super().form_valid(form)
 

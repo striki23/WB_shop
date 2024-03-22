@@ -127,11 +127,7 @@ class Review(models.Model):
         on_delete=models.CASCADE,
         related_name='reviews'
     )
-    author = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        default=1
-    )
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField('Ваш отзыв', blank=True)
     stars = models.IntegerField('Ваша оценка', choices=STARS_GOODS)
     time_create = models.DateTimeField(auto_now_add=True)

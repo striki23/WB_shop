@@ -24,7 +24,12 @@
     <a href="{% url 'shop:index' %}" class="navbar-brand mr-5">WB SHOP</a>
   </div>
   <div class="nav justify-content-end mx-5">
+    {% if user.is_authenticated %}
+    <nav class="me-2 text-bg-dark px-1">{{ user.username }}</nav>
+    <a href="{% url 'users:logout' %}" class="me-2 text-bg-dark px-3">Выйти</a>
+    {% else %}
     <a href="{% url 'users:login' %}" class="me-2 text-bg-dark px-3">Войти</a>
+    {% endif %}
     <a href="" class="me-2 text-bg-dark px-3">Контакты</a>
     <a href="" class="me-2 text-bg-dark px-3" target="_blank">API</a>
     <form class="d-flex" method="get" action="{% url 'shop:search_products' %}">

@@ -160,7 +160,7 @@ target/
 profile_default/
 ipython_config.py
 media
-migrations
+migrations/
 
 
 #########################
