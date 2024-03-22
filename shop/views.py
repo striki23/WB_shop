@@ -20,6 +20,7 @@ class ProductsHome(ListView):
 
     def get_queryset(self):
         return Product.objects.all().annotate(
+            # TODO: Вынести повторения в отдельную функцию
             sale=(F('price') - F('sale_price')) * 100 / F('price')
         )
 
@@ -29,7 +30,7 @@ class SearchProducts(ListView):
     template_name = 'shop/search_products.html'
     context_object_name = 'products'
     # extra_context = {'query': request.GET.get('q')}
-    # TODO как здесь получить request
+    # TODO: Использовать метод get_context_data()
 
     def get_queryset(self):
         query = self.request.GET.get('q')
@@ -44,7 +45,9 @@ class ProductsInCategory(ListView):
     context_object_name = 'products_in_cat'
 
     def get_queryset(self):
-        category = get_object_or_404(Category, slug=self.kwargs['category_slug'])
+        category = get_object_or_404(
+            Category, slug=self.kwargs.get('category_slug')
+        )
         return category.products.annotate(
             sale=(F('price') - F('sale_price')) * 100 / F('price')
         )
@@ -72,7 +75,9 @@ class ShowProductMixin(DetailView):
         product = context['product']
         context['reviews'] = product.reviews.all()
         if context['reviews']:
-            avg_review_stars = product.reviews.aggregate(Avg("stars")).get('stars__avg', 0)
+            avg_review_stars = product.reviews.aggregate(
+                Avg('stars')
+            ).get('stars__avg', 0)
             context['avg_review_stars'] = round(avg_review_stars, 1)
         return context
 

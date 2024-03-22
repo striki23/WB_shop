@@ -112,6 +112,19 @@ class Banner(models.Model):
         return self.title
 
 
+class Grade(models.Model):
+    grade = models.PositiveSmallIntegerField(
+        validators=[
+            # TODO: Валидатор на минимальное значение
+        ],
+        unique=True
+    )
+    description = models.CharField(
+        unique=True,
+        max_length=20
+    )
+
+
 class Review(models.Model):
     STARS_GOODS = (
         (1, '1-Отвратительно'),

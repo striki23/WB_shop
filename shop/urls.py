@@ -15,6 +15,7 @@ urlpatterns = [
 
 ]
 
+# TODO: Перенести в urls.py -> wb_shop_root
 handler404 = views.page_404
 
 if settings.DEBUG:
