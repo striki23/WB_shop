@@ -3,7 +3,7 @@
 # from abc import ABC
 
 # Внешние модули
-from django.db.models import Avg, F, Q
+from django.db.models import Avg, ExpressionWrapper, F, Q, fields
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, FormView, CreateView
@@ -29,14 +29,15 @@ class SearchProducts(ListView):
     model = Product
     template_name = 'shop/search_products.html'
     context_object_name = 'products'
+
     # extra_context = {'query': request.GET.get('q')}
     # TODO как здесь получить request
 
     def get_queryset(self):
         query = self.request.GET.get('q')
         queryset = Product.objects.filter(Q(title__icontains=query)).annotate(
-             sale=(F('price') - F('sale_price')) * 100 / F('price')
-         )
+            sale=(F('price') - F('sale_price')) * 100 / F('price')
+        )
         return queryset
 
 
@@ -45,21 +46,29 @@ class ProductsInCategory(ListView):
     context_object_name = 'products_in_cat'
 
     def get_queryset(self):
-        category = get_object_or_404(Category, slug=self.kwargs['category_slug'])
-        return category.products.annotate(
-            sale=(F('price') - F('sale_price')) * 100 / F('price')
+        self.category = get_object_or_404(
+            Category.objects.prefetch_related('products'),
+            slug=self.kwargs['category_slug']
         )
+        return self.category.products.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if context['products_in_cat']:
-            first_prod, *_ = context['products_in_cat']
-            category = first_prod.category
-            context['category'] = category
-            context['cat_selected'] = category.pk
-            context['banners'] = category.banners.all()
-            return context
-        context['empty'] = 'В данной категории еще нет товаров...'
+
+        if not context.get('products_in_cat'):
+            context['empty'] = 'В данной категории еще нет товаров...'
+        else:
+            products = self.category.products.annotate(
+                sale=ExpressionWrapper(
+                    (F('price') - F('sale_price')) * 100 / F('price'),
+                    output_field=fields.DecimalField()
+                )
+            )
+            context['category'] = self.category
+            context['cat_selected'] = self.category.pk
+            context['banners'] = self.category.banners.all()
+            context['products_in_cat'] = products
+
         return context
 
 
