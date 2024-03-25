@@ -1,50 +1,54 @@
 {% extends 'base.html' %}
 {% load thumbnail %}
 {% block title %}Shop:{{ product.title }}{% endblock %}
-
 {% block content %}
-<div class="container-fluid mt-5">
-
+  <div class="container-fluid mt-5">
     <div class="row">
-        <h3 class="text-center mx-5">{{ product.title }}</h3>
-        <div class="col-md-4 mt-5">
-            {% thumbnail product.image "500x500" as im %}<img class="card-img-top" src="{{ im.url }}">
-            {% endthumbnail %}
-        </div>
-        <div class="col-md-6 mt-5">
-            <h6 class="text-muted">{{ product.category }}</h6>
-            <h6><b>{{ product.price }} руб.</b></h6>
-            <p class="text-justify">{{ product.description }} руб.</p>
-            {% if product.is_available %}
-              <p class="mt-5"><small>В наличии</small></p>
-              <a href="" class="btn btn-primary">Купить</a>
-            {% else %}
-              <p class="text-danger mb-2 mt-5"><small>Недоступен к заказу</small></p>
-              <button class="btn btn-primary disabled">Купить</button>
-            {% endif %}
-         </div>
+      <h3 class="text-center mx-5">{{ product.title }}</h3>
+      <div class="col-md-4 mt-5">
+        {% thumbnail product.image "500x500" as im %}
+          <img class="card-img-top" src="{{ im.url }}">
+        {% endthumbnail %}
+      </div>
+      <div class="col-md-6 mt-5">
+        <h6 class="text-muted">{{ product.category }}</h6>
+        <h6>
+          <b>{{ product.price }} руб.</b>
+        </h6>
+        <p class="text-justify">{{ product.description }} руб.</p>
+        {% if product.is_available %}
+          <p class="mt-5">
+            <small>В наличии</small>
+          </p>
+          <a href="" class="btn btn-primary">Купить</a>
+        {% else %}
+          <p class="text-danger mb-2 mt-5">
+            <small>Недоступен к заказу</small>
+          </p>
+          <button class="btn btn-primary disabled">Купить</button>
+        {% endif %}
+      </div>
     </div>
-
     <div class="row mt-5">
-        <hr>
+      <hr>
       <ul class="nav nav-tabs">
         <li class="nav-item">
           <a href="{% url 'shop:single_product' product.slug %}" class="nav-link">Все отзывы</a>
         </li>
-       <li class="nav-item">
-        <a href="{% url 'shop:add_review' product.slug %}" class="nav-link active">Добавить отзыв</a>
-       </li>
+        <li class="nav-item">
+          <a href="{% url 'shop:add_review' product.slug %}"
+             class="nav-link active">Добавить отзыв</a>
+        </li>
       </ul>
     </div>
-     <div class="row mt-5">
-         <div class="form-group">
-         <form method="POST">
-             {% csrf_token%}
-             {{ form.as_p }}
-       <button type="submit" class="btn btn-primary mt-5">Отправить</button>
-    </form>
-     </div>
-     </div>
-</div>
-
+    <div class="row mt-5">
+      <div class="form-group">
+        <form method="POST">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-primary mt-5">Отправить</button>
+        </form>
+      </div>
+    </div>
+  </div>
 {% endblock %}

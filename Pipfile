@@ -12,6 +12,8 @@ django-extensions = "*"
 pytils = "*"
 django-debug-toolbar = "*"
 
+djlint = "1.34.1"
+
 [dev-packages]
 
 [requires]

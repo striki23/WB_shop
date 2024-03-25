@@ -1,33 +1,29 @@
 {% extends 'base.html' %}
-
 {% block title %}Все товары{% endblock %}
-
 {% block content %}
-
-<div class="row row-cols-xs-1 row-cols-sm-2 row-cols-md-4 g-4 mt-5">
-  {% for product in products %}
-  {% include 'includes/shop/product_card.html' %}
-  {% endfor %}
-</div>
-{% endblock %}
-
-{% block pagination %}
-<nav aria-label="Навигация по страницам" class="container-fluid mt-5 mx-auto">
- <div class="d-lg-flex justify-content-center">
-  <ul class="pagination">
-    {% for p in paginator.page_range %}
-      {% if page_obj.number == p %}
-      <li class="page-item active" aria-current="page">
-      <a class="page-link">{{p}}</a>
-      </li>
-      {% else %}
-      <li class="page-item">
-      <a class="page-link" href="?page={{p}}">{{p}}</a>
-      </li>
-      {% endif %}
-
+  <div class="row row-cols-xs-1 row-cols-sm-2 row-cols-md-4 g-4 mt-5">
+    {% for product in products %}
+      {% include 'includes/shop/product_card.html' %}
     {% endfor %}
-  </ul>
-</div>
-</nav>
+  </div>
+{% endblock %}
+{% block pagination %}
+  <nav aria-label="Навигация по страницам"
+       class="container-fluid mt-5 mx-auto">
+    <div class="d-lg-flex justify-content-center">
+      <ul class="pagination">
+        {% for p in paginator.page_range %}
+          {% if page_obj.number == p %}
+            <li class="page-item active" aria-current="page">
+              <a class="page-link">{{ p }}</a>
+            </li>
+          {% else %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </nav>
 {% endblock %}

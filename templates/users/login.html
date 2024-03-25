@@ -1,18 +1,16 @@
 {% extends 'base.html' %}
-
 {% block title %}Вход в Личный кабинет{% endblock %}
 {% block content %}
-<div class="row mt-5">
-<h4>Авторизация</h4>
-<div class="row mt-5">
-    <form method="POST" >
+  <div class="row mt-5">
+    <h4>Авторизация</h4>
+    <div class="row mt-5">
+      <form method="POST">
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ next }}" />
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary mt-5">Войти</button>
-    </form>
-    <a href="{% url 'users:register' %}" class="mt-5">Еще не зарегистрированы?</a>
+      </form>
+      <a href="{% url 'users:register' %}" class="mt-5">Еще не зарегистрированы?</a>
     </div>
-</div>
-
+  </div>
 {% endblock %}

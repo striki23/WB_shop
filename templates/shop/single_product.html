@@ -2,56 +2,62 @@
 {% load thumbnail %}
 {% load static %}
 {% block title %}Shop:{{ product.title }}{% endblock %}
-
 {% block content %}
-<div class="container-fluid mt-5">
-
+  <div class="container-fluid mt-5">
     <div class="row">
-        <h3 class="text-center mx-5">{{ product.title }}</h3>
-        <div class="col-md-4 mt-5">
-            {% thumbnail product.image "500x500" as im %}<img class="card-img-top" src="{{ im.url }}">
-            {% endthumbnail %}
-        </div>
-        <div class="col-md-6 mt-5">
-            {% if avg_review_stars is not None %}
-                <p><img src="{% static 'images/star.png' %}" width="30" height="30">
-                <b>{{ avg_review_stars }}</b></p>
-            {% endif %}
-            <h6 class="text-muted">{{ product.category }}</h6>
-            <h6><b>{{ product.price }} руб.</b></h6>
-            <p class="text-justify">{{ product.description }} руб.</p>
-            {% if product.is_available %}
-              <p class="mt-5"><small>В наличии</small></p>
-              <a href="" class="btn btn-primary">Купить</a>
-            {% else %}
-              <p class="text-danger mb-2 mt-5"><small>Недоступен к заказу</small></p>
-              <button class="btn btn-primary disabled">Купить</button>
-            {% endif %}
-         </div>
+      <h3 class="text-center mx-5">{{ product.title }}</h3>
+      <div class="col-md-4 mt-5">
+        {% thumbnail product.image "500x500" as im %}
+          <img class="card-img-top" src="{{ im.url }}">
+        {% endthumbnail %}
+      </div>
+      <div class="col-md-6 mt-5">
+        {% if avg_review_stars is not None %}
+          <p>
+            <img src="{% static 'images/star.png' %}" width="30" height="30">
+            <b>{{ avg_review_stars }}</b>
+          </p>
+        {% endif %}
+        <h6 class="text-muted">{{ product.category }}</h6>
+        <h6>
+          <b>{{ product.price }} руб.</b>
+        </h6>
+        <p class="text-justify">{{ product.description }} руб.</p>
+        {% if product.is_available %}
+          <p class="mt-5">
+            <small>В наличии</small>
+          </p>
+          <a href="" class="btn btn-primary">Купить</a>
+        {% else %}
+          <p class="text-danger mb-2 mt-5">
+            <small>Недоступен к заказу</small>
+          </p>
+          <button class="btn btn-primary disabled">Купить</button>
+        {% endif %}
+      </div>
     </div>
-
     <div class="row mt-5">
-        <hr>
+      <hr>
       <ul class="nav nav-tabs">
         <li class="nav-item">
-          <a href="{% url 'shop:single_product' product.slug %}" class="nav-link active">Все отзывы({{ product.reviews.count }})</a>
+          <a href="{% url 'shop:single_product' product.slug %}"
+             class="nav-link active">Все отзывы({{ product.reviews.count }})</a>
         </li>
-       <li class="nav-item">
-        <a href="{% url 'shop:add_review' product.slug %}" class="nav-link ">Добавить отзыв</a>
-       </li>
+        <li class="nav-item">
+          <a href="{% url 'shop:add_review' product.slug %}" class="nav-link ">Добавить отзыв</a>
+        </li>
       </ul>
     </div>
-     <div class="row mt-5">
-     {% for rev in reviews %}
-         <div class="p-2 mb-1 bg-light text-dark "><small>{{rev.time_create}}</small></div>
-         <p class="fw-bold">{{rev.author}}</p>
-         <div class="badge bg-secondary text-wrap" style="width: 8rem;">
-             Оценка товара - {{rev.stars}}
-         </div>
-         <p class="fs-6">{{rev.text}}</p>
-         <hr>
-     {% endfor %}
-     </div>
-</div>
-
+    <div class="row mt-5">
+      {% for rev in reviews %}
+        <div class="p-2 mb-1 bg-light text-dark ">
+          <small>{{ rev.time_create }}</small>
+        </div>
+        <p class="fw-bold">{{ rev.author }}</p>
+        <div class="badge bg-secondary text-wrap" style="width: 8rem;">Оценка товара - {{ rev.stars }}</div>
+        <p class="fs-6">{{ rev.text }}</p>
+        <hr>
+      {% endfor %}
+    </div>
+  </div>
 {% endblock %}
