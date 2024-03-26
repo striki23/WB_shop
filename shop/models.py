@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from pytils.translit import slugify
 from django.core.validators import ValidationError, MinValueValidator
-from django.contrib.auth.models import User
+from users.models import User
 
 from my_utils.utils import validate_image, get_file_path
 from shop.validators import ProductTitleValidator, ProfileImageValidator

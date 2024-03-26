@@ -49,6 +49,10 @@ class ProductsInCategory(ListView):
         return category.products.annotate(
             sale=(F('price') - F('sale_price')) * 100 / F('price')
         )
+        # return Category.objects.select_related('category').get(
+        #     slug=self.kwargs['category_slug']).annotate(
+        #     sale=(F('price') - F('sale_price')) * 100 / F('price')
+        # )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
