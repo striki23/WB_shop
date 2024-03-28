@@ -3,18 +3,28 @@
 {% block title %}Вход в Личный кабинет{% endblock %}
 {% block content %}
 <div class="row mt-5">
+    <div class="col-md-9 col-sm-auto col-lg-6">
+
 <h4>Авторизация</h4>
-<div class="row mt-5">
-    <form method="POST" >
+
+    <form class="mt-5" method="POST" >
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ next }}" />
         {{ form.as_p }}
-        </form>
         <p class="align-middle">
             <button type="submit" class="btn btn-primary ">Войти</button>
-            <a href="{% url 'users:password_reset' %}" class="align-text-bottom mt-5">Забыли пароль?</a>
         </p>
-    <a href="{% url 'users:register' %}" class="mt-5">Еще не зарегистрированы?</a>
+    </form>
+
+    <table class="table">
+     <tbody>
+        <tr>
+          <td><a class="pr-5" href="{% url 'users:password_reset' %}" >Забыли пароль?</a></td>
+          <td><a class="mt-5" href="{% url 'users:register' %}" >Еще не зарегистрированы?</a></td>
+        </tr>
+     </tbody>
+    </table>
+
     </div>
 </div>
 

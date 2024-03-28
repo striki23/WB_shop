@@ -29,8 +29,6 @@ class SearchProducts(ListView):
     model = Product
     template_name = 'shop/search_products.html'
     context_object_name = 'products'
-    # extra_context = {'query': request.GET.get('q')}
-    # TODO как здесь получить request
 
     def get_queryset(self):
         query = self.request.GET.get('q')
@@ -38,6 +36,12 @@ class SearchProducts(ListView):
              sale=(F('price') - F('sale_price')) * 100 / F('price')
          )
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(context)
+        context['query'] = self.request.GET.get('q')
+        return context
 
 
 class ProductsInCategory(ListView):

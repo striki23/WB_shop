@@ -2,7 +2,9 @@ from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
 from users.forms import MyLoginForm, RegisterForm, ProfileUserForm, PasswordChangeForm
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, View
+from django.http import HttpResponse
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 class LoginUser(LoginView):
@@ -10,10 +12,11 @@ class LoginUser(LoginView):
     template_name = 'users/login.html'
 
 
-class RegisterUser(CreateView):
+class RegisterUser(SuccessMessageMixin, CreateView):
     form_class = RegisterForm
     template_name = 'users/register.html'
-    success_url = reverse_lazy('register_success.html')
+    success_url = 'success'
+    success_message = "Пользователь с логином '%(username)s' успешно создан."
 
 
 class ProfileUser(UpdateView):

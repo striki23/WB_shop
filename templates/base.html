@@ -25,11 +25,21 @@
   </div>
   <div class="nav justify-content-end mx-5">
     {% if user.is_authenticated %}
-    <a href="{% url 'users:profile' %}" class="me-2 text-bg-dark px-3">
-      <img src="{% static 'images/user_profile.png' %}" width="50">{{ user.username }}</a>
+     <div class="dropdown">
+       <a class="nav-link dropdown-toggle me-2 text-bg-dark px-3" href="" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{% static 'images/user_profile.png' %}" width="50">
+       </a>
+      <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+        <li class="dropdown-item text-warning">{{ user.username }}</li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="{% url 'users:profile' %}">Профиль</a></li>
+        <li><a class="dropdown-item" href="{% url 'users:password_change' %}">Сменить пароль</a></li>
+        <li><a class="dropdown-item" href="{% url 'users:logout' %}">Выйти из профиля</a></li>
+      </ul>
+     </div>
 
     {% else %}
-    <a href="{% url 'users:login' %}" class="me-2 text-bg-dark px-3">Войти</a>
+    <a href="{% url 'users:login' %}" class="navbar-brand mr-5">Войти</a>
     {% endif %}
     <form class="d-flex" method="get" action="{% url 'shop:search_products' %}">
       <input class="form-control me-2" type="search" required placeholder="Поиск" aria-label="Search" name="q">

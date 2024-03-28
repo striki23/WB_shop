@@ -24,6 +24,11 @@ class MyLoginForm(AuthenticationForm):
 
 class RegisterForm(UserCreationForm):
 
+    password1 = forms.CharField(
+        label='Пароль', widget=forms.PasswordInput(
+            attrs={'class': 'form-control'}
+        )
+    )
     password2 = forms.CharField(
         label='Подтверждение пароля', widget=forms.PasswordInput(
             attrs={'class': 'form-control'}
